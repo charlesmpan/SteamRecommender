@@ -6,9 +6,6 @@ import pandas as pd
 import requests
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.preprocessing import MultiLabelBinarizer
-from IPython.display import display
-from IPython.display import Image
-from IPython.core.display import display, HTML
 import ast
 from PIL import Image as pimp
 
