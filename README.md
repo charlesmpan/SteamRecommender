@@ -39,13 +39,19 @@ The major features that ended up in the Final CSV File will be explained below.
 
 Preview of the Largest Features used in the Recommender System
 The following charts were created based off around seventeen thousand games remaining after all the cleaning and removal of games with no/low reviews.
+
 ![Top 10 Labels](/images/Categories.png)
+
 The following are the top ten categories based off total count.
 There is a missing column due to a small issue of empty entries in the lists.
+
 ![Top 10 Genres](/images/Genres.png)
+
 The following are the top ten categories based off total count.
 There is an issue for D since I removed all the numbers.
+
 ![Top 10 Tags](/images/Tags.png)
+
 The following are the top ten categories based off total count.
 There is gladly no issue here since SteamSpy data is a lot cleaner.
 
