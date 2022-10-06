@@ -116,14 +116,17 @@ def SteamRecommendMeMany(game,game2,game3,game4,recs):
                 st.write("Published by "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Publisher.values)))
                 st.write("Developed by "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Developer.values)))
                 st.write("Released on "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Release_Date.values)))
+                st.write("")
+                st.write("")
+                st.write("")
+                st.write("")
             with text_column:
                 st.write("Steam categories classified under the game : "+ "/n ".join(map(str,steamresults.loc[steamresults.AppID == appid].Categories.values)))
                 st.write("Steam genres classified under the game : "+ "/n ".join(map(str,steamresults.loc[steamresults.AppID == appid].Genres.values)))
                 st.write("Fan/player tags are : "+ "/n ".join(map(str,steamresults.loc[steamresults.AppID == appid].Tags.values)))
                 st.write("The total reviews : "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Total_Reviews.values)))
                 st.write("Positive Review Percentage : "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Sentiment.values.round(2)*100))+"%")
-    print(recommendations)
-
+                
 st.title('Steam Game Recommender')
 st.caption('Please note some games priced at $0 maybe unavailable, and that the data may become out-dated')
 st.image(pimp.open(requests.get("https://www.vortez.net/contentteller.php?ct=news&action=file&id=18653", stream=True).raw))
