@@ -21,7 +21,9 @@ steam['Tags'] = steam['Tags'].apply(lambda x: ast.literal_eval(x))
 steam['Categories'] = steam['Categories'].apply(lambda x: ast.literal_eval(x))
 steam['Genres'] = steam['Genres'].apply(lambda x: ast.literal_eval(x))
 steam = steam.set_index('AppID')
-steamgamelist = list(steam.Name.values)
+steamy = steam
+steamy = steamy.sort_values('Total_Reviews', ascending=False)
+steamgamelist = list(steamy.Name.values)
 #Turning these categories into lists with ast.literal_eval
 
 def create_mlb_df(df, columns):
@@ -47,40 +49,6 @@ def create_mlb_df(df, columns):
     return new_df
 mlb_df = create_mlb_df(steam, ['Labels'])
 #An amalgamation of everything above
-
-def SteamRecommendMe(game,recs):
-    #This limits the game and finds the index at which it is aka the APPID, this will refer back to the actual dataframe not the mlb one later
-    game = steam.index[steam.Name == game]
-    # Pulling out an individual row indexed by steam app ID
-    y = np.array(mlb_df.loc[game])
-    # Need to reshape so it can be passed into cosine_sim function
-    y = y.reshape(1, -1)
-    # Utilize cosine_similarity from sklearn to return similarity scores based on cosine distance
-    cos_sim = cosine_similarity(mlb_df, y)
-    # Create a dataframe with similairty scores with book product ID ('asin') as index
-    cos_sim = pd.DataFrame(data=cos_sim, index=mlb_df.index)
-    cos_sim.sort_values(cos_sim.columns[0], ascending = False).head(int(recs)+1)
-    results = cos_sim.sort_values(cos_sim.columns[0], ascending = False).head(int(recs)+1).index
-    steamresults = steam.loc[results]
-    steamresults.reset_index(inplace=True)
-    pd.options.display.float_format = '{:.2f}'.format
-    recommendations = steamresults[['AppID', 'Name','Publisher','Developer','Release_Date','Price','Categories','Genres', 'Tags', 'Total_Reviews'
-               ,'Sentiment']].iloc[1: , :]
-    for appid in list(results)[1:]:
-        display(Image("https://cdn.akamai.steamstatic.com/steam/apps/"+str(appid)+"/header.jpg"))
-        display(HTML("""<a href=https://store.steampowered.com/app/%s/">Steam Website Link</a>"""%(appid)))
-        print("The AppID on Steam for the Game is "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].AppID.values)))
-        print("The Game Developer = "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Name.values)))
-        print("The Game Publisher is "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Publisher.values)))
-        print("The game was developed by "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Developer.values)))
-        print("The game was released on "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Release_Date.values)))
-        print("These are the following categories classified under the game : "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Categories.values)))
-        print("These are the following genres classified under the game : "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Genres.values)))
-        print("These are the following tags classified under the game : "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Tags.values)))
-        print("The following are the total reviews "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Total_Reviews.values)))
-        print("The following is the Positive Reviews/Total Reviews : "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Sentiment.values)))
-        print("The Game Currently Costs ... "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Price.values)))
-    return(recommendations)
 
 #Putting multiple games into one to see if we can handle multiple game recs at once
 def SteamRecommendMeMany(game,game2,game3,game4,recs):
@@ -141,34 +109,51 @@ def SteamRecommendMeMany(game,game2,game3,game4,recs):
     recommendations = steamresults[['AppID', 'Name','Publisher','Developer','Release_Date','Price','Categories','Genres', 'Tags', 'Total_Reviews'
             ,'Sentiment']].iloc[numct: , :]
     for appid in list(results)[numct:]:
-        display(Image("https://cdn.akamai.steamstatic.com/steam/apps/"+str(appid)+"/header.jpg"))
-        display(HTML("""<a href=https://store.steampowered.com/app/%s/">Steam Website Link</a>"""%(appid)))
-        print("The AppID on Steam for the Game is "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].AppID.values)))
-        print("The Game Developer = "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Name.values)))
-        print("The Game Publisher is "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Publisher.values)))
-        print("The game was developed by "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Developer.values)))
-        print("The game was released on "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Release_Date.values)))
-        print("These are the following categories classified under the game : "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Categories.values)))
-        print("These are the following genres classified under the game : "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Genres.values)))
-        print("These are the following tags classified under the game : "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Tags.values)))
-        print("The following are the total reviews "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Total_Reviews.values)))
-        print("The following is the Positive Reviews/Total Reviews : "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Sentiment.values)))
-        print("The Game Currently Costs ... "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Price.values)))
-    # Changing certain columns to display integer instead of float for more appealing final display
-    return(recommendations)
+        with st.container():
+            image_column, text_column = st.columns((6,4))
+            with image_column:
+                st.image(pimp.open(requests.get("https://cdn.akamai.steamstatic.com/steam/apps/"+str(appid)+"/header.jpg", stream=True).raw))
+                st.markdown('[Steam Website URL](https://store.steampowered.com/app/'+str(appid)+')')
+                st.subheader(""+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Name.values)))
+                st.write("Costs $"+ "".join(map(str,steamresults.loc[steamresults.AppID == appid].Price.values)))
+                st.write("Published by "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Publisher.values)))
+                st.write("Developed by "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Developer.values)))
+                st.write("Released on "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Release_Date.values)))
+            with text_column:
+                st.write("Steam categories classified under the game : "+ "/n ".join(map(str,steamresults.loc[steamresults.AppID == appid].Categories.values)))
+                st.write("Steam genres classified under the game : "+ "/n ".join(map(str,steamresults.loc[steamresults.AppID == appid].Genres.values)))
+                st.write("Fan/player tags are : "+ "/n ".join(map(str,steamresults.loc[steamresults.AppID == appid].Tags.values)))
+                st.write("The total reviews : "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Total_Reviews.values)))
+                st.write("Positive Review Percentage : "+ " ".join(map(str,steamresults.loc[steamresults.AppID == appid].Sentiment.values.round(2)*100))+"%")
+    print(recommendations)
+
+st.title('Steam Game Recommender')
+st.caption('Please note some games priced at $0 maybe unavailable, and that the data may become out-dated')
+st.image(pimp.open(requests.get("https://www.vortez.net/contentteller.php?ct=news&action=file&id=18653", stream=True).raw))
+with st.form("Steam Recommender"):
+    game = st.selectbox("Enter a game you're interested in", steamgamelist)
+    game2 = st.multiselect("Enter a second game you're interested in (Or leave blank)", steamgamelist)
+    game3 = st.multiselect("Enter a third game you're interested in (Or leave blank)", steamgamelist)
+    game4 = st.multiselect("Enter a fourth game you're interested in (Or leave blank)", steamgamelist)
+    konrecokonreco = st.number_input("Number of Recommendations", 1, 20)
+   # Every form must have a submit button.
+    submitted = st.form_submit_button("Submit")
+    if submitted:
+        with st.spinner("Please wait..."):
+            if len(game) == 0:
+                game.append("")            
+            if len(game2) == 0:
+                game2.append("")
+            if len(game3) == 0:
+                game3.append("")
+            if len(game4) == 0:
+                game4.append("")                                
+            if game[0] == "" and game2[0] == "" and game3[0] == "" and game4[0] == "":
+                st.error("We encountered an error - Bob")
+            else: 
+                SteamRecommendMeMany(game,game2[0],game3[0],game4[0],konrecokonreco)
 
 
-#game = input('Game Name: ')
-#recs = input('Number of Recommendations: ')
-#SteamRecommendMe(game,recs)
 
-st.title('Hi World')
-game = st.multiselect('gameone', steamgamelist)
-game2 = st.multiselect('gametwo', steamgamelist)
-game3 = st.multiselect('gamethree', steamgamelist)
-game4 = st.multiselect('gamefour', steamgamelist)
-url = 'https://cdn.akamai.steamstatic.com/steam/apps/10/header.jpg'
-im = pimp.open(requests.get(url, stream=True).raw)
-st.image(im)
-st.write('pig')
-st.markdown('[clickme](https://store.steampowered.com/app/726990/)')
+st.write("If you're interested in the following project, feel free to checkout the GitHub")
+st.markdown('[Click Here for the Github](https://github.com/charlesmpan/SteamRecommender)')
