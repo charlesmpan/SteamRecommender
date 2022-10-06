@@ -1,5 +1,5 @@
 # SteamRecommender
-!([Steam]/images/steam-banner.jpg)
+![Steam](/images/steam-banner.jpg)
 ### Steam Recommender System - Content Based Approach
 ## Project Overview
 Steam is one of the largest digital distributors for games and is well known by almost everyone who plays games. I created a content based recommendation system using cosine similarity from data I queried/requested from Steam API and Steam Spy API. All the user has to do is input one to four games and the number of recommendations they want, and they'll receive a game image, a URL to the games website on Steam, and information regarding the game.\
@@ -82,22 +82,23 @@ Wait for pull request to merge\
 Allow me to review your contribution
 
 # Repository Structure
-
+<pre>
 ├── README.md <- The README for this project\
 ├── 01_NotebookDataQueries.ipynb <- Data Query NB\
 ├── 02_NotebookDataCleaning.ipynb <- Data Cleaning NB\
 ├── 03_NotebookDataMoreCleaning.ipynb <- Data Cleaning NB\
-├── 04_NotebookRecommenderModel.ipynb <- Final NB
+├── 04_NotebookRecommenderModel.ipynb <- Final NB\
 ├── peko.py <- Python script for Streamlit\
 ├── C-Capstone_Steam_Recommender.pptx\
 ├── C-Capstone_Steam_Recommender.pdf\
 ├── data\
-         └── SteamFinal.csv <- Final Cleaned Notebook\
+    └── SteamFinal.csv <- Final Cleaned Notebook\
 ├── images\
-         ├── Categories.png <- Top 10 Category Chart\
-         ├── Genres.png <- Top 10 Genres Chart\
-         ├── Tags.png <- Top 10 Tags Chart\
-         └── steam-banner.jpg <- Banner image for Readme\
+    ├── Categories.png <- Top 10 Category Chart\
+    ├── Genres.png <- Top 10 Genres Chart\
+    ├── Tags.png <- Top 10 Tags Chart\
+    └── steam-banner.jpg <- Banner image for Readme\
 ├── environment.yaml <- Environment file for Python\
 ├── requirements.txt <- Requirement file for Streamlit\
 └── .gitignore <- The .Gitignore file
+<pre>
