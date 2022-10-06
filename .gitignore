@@ -50,6 +50,6 @@ ENV/
 env.bak/
 venv.bak/
 
-data/
+data/*
 images/
 !data/SteamFinal.csv
