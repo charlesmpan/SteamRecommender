@@ -1,5 +1,5 @@
 # SteamRecommender
-![Top 10 Tags](/images/steam-banner.jpeg)
+!(/images/steam-banner.jpg)
 ### Steam Recommender System - Content Based Approach
 ## Project Overview
 Steam is one of the largest digital distributors for games and is well known by almost everyone who plays games. I created a content based recommendation system using cosine similarity from data I queried/requested from Steam API and Steam Spy API. All the user has to do is input one to four games and the number of recommendations they want, and they'll receive a game image, a URL to the games website on Steam, and information regarding the game.\
@@ -56,7 +56,7 @@ Step 3. Data cleaning and removal of unnecessary features\
 Step 4. Categorize/Bin certain features such as price, sentiment, and review count.\
 Step 5. Ensure that all the features to be used format into a list, and add them all into one column called Labels\
 Step 6. Run a MultiLabelBinarizer on the Labels to generate the matrix that will be used for cosine similarity\
-Step 7. Create the recommender system based off user input that'll use the MLB and sort by score afterwards to return the top #(based off user entry) recommendations back\
+Step 7. Create the recommender system based off user input that'll use the MLB and sort by score afterwards to return the top #(based off user entry) recommendations back
 
 ## The Streamlit App
 peko.py is the file used to open and access Streamlit. If you have downloaded the repository and have it opened, you can simply enter the following into your terminal\
@@ -79,25 +79,25 @@ Commit and push\
 Create a pull request\
 Star this repository\
 Wait for pull request to merge\
-Allow me to review your contribution\
+Allow me to review your contribution
 
 # Repository Structure
 
 ├── README.md <- The README for this project\
-├── 01_NotebookDataQueries.ipynb <- Data Query Notebook\
-├── 02_NotebookDataCleaning.ipynb <- Data Cleaning Notebook\
-├── 03_NotebookDataMoreCleaning.ipynb <- Data Cleaning Notebook\
-├── 04_NotebookRecommenderModel.ipynb <- Recommender System Notebook\
+├── 01_NotebookDataQueries.ipynb <- Data Query NB\
+├── 02_NotebookDataCleaning.ipynb <- Data Cleaning NB\
+├── 03_NotebookDataMoreCleaning.ipynb <- Data Cleaning NB\
+├── 04_NotebookRecommenderModel.ipynb <- Final NB
 ├── peko.py <- Python script for Streamlit\
 ├── C-Capstone_Steam_Recommender.pptx\
 ├── C-Capstone_Steam_Recommender.pdf\
 ├── data\
-    └── SteamFinal.csv <- Final Cleaned Notebook\
+    - └── SteamFinal.csv <- Final Cleaned Notebook\
 ├── images\
-    ├── Categories.png <- Top 10 Category Chart\
-    ├── Genres.png <- Top 10 Genres Chart\
-    ├── Tags.png <- Top 10 Tags Chart\
-    └── steam-banner.jpg <- Banner image for Readme\
+    - ├── Categories.png <- Top 10 Category Chart\
+    - ├── Genres.png <- Top 10 Genres Chart\
+    - ├── Tags.png <- Top 10 Tags Chart\
+    - └── steam-banner.jpg <- Banner image for Readme\
 ├── environment.yaml <- Environment file for Python\
 ├── requirements.txt <- Requirement file for Streamlit\
 └── .gitignore <- The .Gitignore file
